@@ -1,0 +1,30 @@
+name: built_value_example
+description: A simple command-line application.
+# version: 1.0.0
+# homepage: https://www.example.com
+
+environment:
+  sdk: '>=2.8.1 <3.0.0'
+
+dependencies:
+  built_value: '>= 7.1.0'
+  hive: 
+  built_collection: any
+
+dev_dependencies:
+  pedantic: ^1.9.0
+  build_runner:
+  built_value_generator: '>= 7.1.0'
+  hive_generator:
+
+dependency_overrides:
+  built_value: ^8.0.0-nullsafety.0
+  hive:
+    path: ../hive
+  hive_generator:
+    path: ../hive_generator
+  built_collection: ^5.0.0-nullsafety.0
+  built_value_generator:
+    git:
+      url: https://github.com/google/built_value.dart
+      path: built_value_generator/
