@@ -562,9 +562,15 @@ class BuiltValueAdapter extends TypeAdapter<BuiltValue> {
           ..name = fields[0] as String
           ..surname = fields[1] as String
           ..otherValue = (fields[2] as OtherBuiltValue)?.toBuilder()
-          ..valuesList = ListBuilder<OtherBuiltValue>(fields[3] as List)
-          ..valuesSet = SetBuilder<OtherBuiltValue>(fields[4] as List)
-          ..valuesMap = MapBuilder<String, OtherBuiltValue>(fields[5] as Map)
+          ..valuesList = fields[3] == null
+              ? null
+              : ListBuilder<OtherBuiltValue>(fields[3] as List)
+          ..valuesSet = fields[4] == null
+              ? null
+              : SetBuilder<OtherBuiltValue>(fields[4] as List)
+          ..valuesMap = fields[5] == null
+              ? null
+              : MapBuilder<String, OtherBuiltValue>(fields[5] as Map)
           ..enumField = fields[6] as BuiltEnum)
         .build();
   }
