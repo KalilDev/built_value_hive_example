@@ -19,10 +19,10 @@ dev_dependencies:
 
 dependency_overrides:
   built_value: ^8.0.0-nullsafety.0
-  hive:
-    path: ../hive
   hive_generator:
     path: ../hive_generator
+  hive:
+    path: ../hive
   built_collection: ^5.0.0-nullsafety.0
   built_value_generator:
     git:
