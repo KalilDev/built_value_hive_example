@@ -32,23 +32,23 @@ final BuiltSet<BuiltEnum> _$BuiltEnumValues =
 
 Serializers _$serializers = (new Serializers().toBuilder()
       ..add(BuiltEnum.serializer)
-      ..add(BuiltValue.serializer)
-      ..add(OtherBuiltValue.serializer)
+      ..add(OtherValueClass.serializer)
+      ..add(ValueClass.serializer)
       ..addBuilderFactory(
-          const FullType(BuiltList, const [const FullType(OtherBuiltValue)]),
-          () => new ListBuilder<OtherBuiltValue>())
+          const FullType(BuiltList, const [const FullType(OtherValueClass)]),
+          () => new ListBuilder<OtherValueClass>())
       ..addBuilderFactory(
-          const FullType(BuiltSet, const [const FullType(OtherBuiltValue)]),
-          () => new SetBuilder<OtherBuiltValue>())
+          const FullType(BuiltSet, const [const FullType(OtherValueClass)]),
+          () => new SetBuilder<OtherValueClass>())
       ..addBuilderFactory(
           const FullType(BuiltMap,
-              const [const FullType(String), const FullType(OtherBuiltValue)]),
-          () => new MapBuilder<String, OtherBuiltValue>()))
+              const [const FullType(String), const FullType(OtherValueClass)]),
+          () => new MapBuilder<String, OtherValueClass>()))
     .build();
 Serializer<BuiltEnum> _$builtEnumSerializer = new _$BuiltEnumSerializer();
-Serializer<BuiltValue> _$builtValueSerializer = new _$BuiltValueSerializer();
-Serializer<OtherBuiltValue> _$otherBuiltValueSerializer =
-    new _$OtherBuiltValueSerializer();
+Serializer<ValueClass> _$valueClassSerializer = new _$ValueClassSerializer();
+Serializer<OtherValueClass> _$otherValueClassSerializer =
+    new _$OtherValueClassSerializer();
 
 class _$BuiltEnumSerializer implements PrimitiveSerializer<BuiltEnum> {
   @override
@@ -67,14 +67,14 @@ class _$BuiltEnumSerializer implements PrimitiveSerializer<BuiltEnum> {
       BuiltEnum.valueOf(serialized as String);
 }
 
-class _$BuiltValueSerializer implements StructuredSerializer<BuiltValue> {
+class _$ValueClassSerializer implements StructuredSerializer<ValueClass> {
   @override
-  final Iterable<Type> types = const [BuiltValue, _$BuiltValue];
+  final Iterable<Type> types = const [ValueClass, _$ValueClass];
   @override
-  final String wireName = 'BuiltValue';
+  final String wireName = 'ValueClass';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, BuiltValue object,
+  Iterable<Object> serialize(Serializers serializers, ValueClass object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'name',
@@ -84,19 +84,19 @@ class _$BuiltValueSerializer implements StructuredSerializer<BuiltValue> {
           specifiedType: const FullType(String)),
       'otherValue',
       serializers.serialize(object.otherValue,
-          specifiedType: const FullType(OtherBuiltValue)),
+          specifiedType: const FullType(OtherValueClass)),
       'valuesList',
       serializers.serialize(object.valuesList,
           specifiedType: const FullType(
-              BuiltList, const [const FullType(OtherBuiltValue)])),
+              BuiltList, const [const FullType(OtherValueClass)])),
       'valuesSet',
       serializers.serialize(object.valuesSet,
           specifiedType: const FullType(
-              BuiltSet, const [const FullType(OtherBuiltValue)])),
+              BuiltSet, const [const FullType(OtherValueClass)])),
       'valuesMap',
       serializers.serialize(object.valuesMap,
           specifiedType: const FullType(BuiltMap,
-              const [const FullType(String), const FullType(OtherBuiltValue)])),
+              const [const FullType(String), const FullType(OtherValueClass)])),
       'enumField',
       serializers.serialize(object.enumField,
           specifiedType: const FullType(BuiltEnum)),
@@ -106,9 +106,9 @@ class _$BuiltValueSerializer implements StructuredSerializer<BuiltValue> {
   }
 
   @override
-  BuiltValue deserialize(Serializers serializers, Iterable<Object> serialized,
+  ValueClass deserialize(Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new BuiltValueBuilder();
+    final result = new ValueClassBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -125,28 +125,28 @@ class _$BuiltValueSerializer implements StructuredSerializer<BuiltValue> {
               specifiedType: const FullType(String)) as String;
           break;
         case 'otherValue':
-          result.otherValue.replace(serializers.deserialize(value,
-                  specifiedType: const FullType(OtherBuiltValue))
-              as OtherBuiltValue);
+          result.otherValue = serializers.deserialize(value,
+                  specifiedType: const FullType(OtherValueClass))
+              as OtherValueClass;
           break;
         case 'valuesList':
-          result.valuesList.replace(serializers.deserialize(value,
+          result.valuesList = serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltList, const [const FullType(OtherBuiltValue)]))
-              as BuiltList<Object>);
+                      BuiltList, const [const FullType(OtherValueClass)]))
+              as BuiltList<OtherValueClass>;
           break;
         case 'valuesSet':
-          result.valuesSet.replace(serializers.deserialize(value,
+          result.valuesSet = serializers.deserialize(value,
                   specifiedType: const FullType(
-                      BuiltSet, const [const FullType(OtherBuiltValue)]))
-              as BuiltSet<Object>);
+                      BuiltSet, const [const FullType(OtherValueClass)]))
+              as BuiltSet<OtherValueClass>;
           break;
         case 'valuesMap':
-          result.valuesMap.replace(serializers.deserialize(value,
+          result.valuesMap = serializers.deserialize(value,
               specifiedType: const FullType(BuiltMap, const [
                 const FullType(String),
-                const FullType(OtherBuiltValue)
-              ])));
+                const FullType(OtherValueClass)
+              ])) as BuiltMap<String, OtherValueClass>;
           break;
         case 'enumField':
           result.enumField = serializers.deserialize(value,
@@ -159,15 +159,15 @@ class _$BuiltValueSerializer implements StructuredSerializer<BuiltValue> {
   }
 }
 
-class _$OtherBuiltValueSerializer
-    implements StructuredSerializer<OtherBuiltValue> {
+class _$OtherValueClassSerializer
+    implements StructuredSerializer<OtherValueClass> {
   @override
-  final Iterable<Type> types = const [OtherBuiltValue, _$OtherBuiltValue];
+  final Iterable<Type> types = const [OtherValueClass, _$OtherValueClass];
   @override
-  final String wireName = 'OtherBuiltValue';
+  final String wireName = 'OtherValueClass';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, OtherBuiltValue object,
+  Iterable<Object> serialize(Serializers serializers, OtherValueClass object,
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object>[
       'intField',
@@ -185,10 +185,10 @@ class _$OtherBuiltValueSerializer
   }
 
   @override
-  OtherBuiltValue deserialize(
+  OtherValueClass deserialize(
       Serializers serializers, Iterable<Object> serialized,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = new OtherBuiltValueBuilder();
+    final result = new OtherValueClassBuilder();
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
@@ -215,26 +215,26 @@ class _$OtherBuiltValueSerializer
   }
 }
 
-class _$BuiltValue extends BuiltValue {
+class _$ValueClass extends ValueClass {
   @override
   final String name;
   @override
   final String surname;
   @override
-  final OtherBuiltValue otherValue;
+  final OtherValueClass otherValue;
   @override
-  final BuiltList<OtherBuiltValue> valuesList;
+  final BuiltList<OtherValueClass> valuesList;
   @override
-  final BuiltSet<OtherBuiltValue> valuesSet;
+  final BuiltSet<OtherValueClass> valuesSet;
   @override
-  final BuiltMap<String, OtherBuiltValue> valuesMap;
+  final BuiltMap<String, OtherValueClass> valuesMap;
   @override
   final BuiltEnum enumField;
 
-  factory _$BuiltValue([void Function(BuiltValueBuilder) updates]) =>
-      (new BuiltValueBuilder()..update(updates)).build();
+  factory _$ValueClass([void Function(ValueClassBuilder) updates]) =>
+      (new ValueClassBuilder()..update(updates)).build();
 
-  _$BuiltValue._(
+  _$ValueClass._(
       {this.name,
       this.surname,
       this.otherValue,
@@ -243,28 +243,28 @@ class _$BuiltValue extends BuiltValue {
       this.valuesMap,
       this.enumField})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(name, 'BuiltValue', 'name');
-    BuiltValueNullFieldError.checkNotNull(surname, 'BuiltValue', 'surname');
+    BuiltValueNullFieldError.checkNotNull(name, 'ValueClass', 'name');
+    BuiltValueNullFieldError.checkNotNull(surname, 'ValueClass', 'surname');
     BuiltValueNullFieldError.checkNotNull(
-        otherValue, 'BuiltValue', 'otherValue');
+        otherValue, 'ValueClass', 'otherValue');
     BuiltValueNullFieldError.checkNotNull(
-        valuesList, 'BuiltValue', 'valuesList');
-    BuiltValueNullFieldError.checkNotNull(valuesSet, 'BuiltValue', 'valuesSet');
-    BuiltValueNullFieldError.checkNotNull(valuesMap, 'BuiltValue', 'valuesMap');
-    BuiltValueNullFieldError.checkNotNull(enumField, 'BuiltValue', 'enumField');
+        valuesList, 'ValueClass', 'valuesList');
+    BuiltValueNullFieldError.checkNotNull(valuesSet, 'ValueClass', 'valuesSet');
+    BuiltValueNullFieldError.checkNotNull(valuesMap, 'ValueClass', 'valuesMap');
+    BuiltValueNullFieldError.checkNotNull(enumField, 'ValueClass', 'enumField');
   }
 
   @override
-  BuiltValue rebuild(void Function(BuiltValueBuilder) updates) =>
+  ValueClass rebuild(void Function(ValueClassBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  BuiltValueBuilder toBuilder() => new BuiltValueBuilder()..replace(this);
+  ValueClassBuilder toBuilder() => new ValueClassBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is BuiltValue &&
+    return other is ValueClass &&
         name == other.name &&
         surname == other.surname &&
         otherValue == other.otherValue &&
@@ -290,7 +290,7 @@ class _$BuiltValue extends BuiltValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('BuiltValue')
+    return (newBuiltValueToStringHelper('ValueClass')
           ..add('name', name)
           ..add('surname', surname)
           ..add('otherValue', otherValue)
@@ -302,8 +302,8 @@ class _$BuiltValue extends BuiltValue {
   }
 }
 
-class BuiltValueBuilder implements Builder<BuiltValue, BuiltValueBuilder> {
-  _$BuiltValue _$v;
+class ValueClassBuilder implements Builder<ValueClass, ValueClassBuilder> {
+  _$ValueClass _$v;
 
   String _name;
   String get name => _$this._name;
@@ -313,45 +313,40 @@ class BuiltValueBuilder implements Builder<BuiltValue, BuiltValueBuilder> {
   String get surname => _$this._surname;
   set surname(String surname) => _$this._surname = surname;
 
-  OtherBuiltValueBuilder _otherValue;
-  OtherBuiltValueBuilder get otherValue =>
-      _$this._otherValue ??= new OtherBuiltValueBuilder();
-  set otherValue(OtherBuiltValueBuilder otherValue) =>
-      _$this._otherValue = otherValue;
+  OtherValueClass _otherValue;
+  OtherValueClass get otherValue => _$this._otherValue;
+  set otherValue(OtherValueClass otherValue) => _$this._otherValue = otherValue;
 
-  ListBuilder<OtherBuiltValue> _valuesList;
-  ListBuilder<OtherBuiltValue> get valuesList =>
-      _$this._valuesList ??= new ListBuilder<OtherBuiltValue>();
-  set valuesList(ListBuilder<OtherBuiltValue> valuesList) =>
+  BuiltList<OtherValueClass> _valuesList;
+  BuiltList<OtherValueClass> get valuesList => _$this._valuesList;
+  set valuesList(BuiltList<OtherValueClass> valuesList) =>
       _$this._valuesList = valuesList;
 
-  SetBuilder<OtherBuiltValue> _valuesSet;
-  SetBuilder<OtherBuiltValue> get valuesSet =>
-      _$this._valuesSet ??= new SetBuilder<OtherBuiltValue>();
-  set valuesSet(SetBuilder<OtherBuiltValue> valuesSet) =>
+  BuiltSet<OtherValueClass> _valuesSet;
+  BuiltSet<OtherValueClass> get valuesSet => _$this._valuesSet;
+  set valuesSet(BuiltSet<OtherValueClass> valuesSet) =>
       _$this._valuesSet = valuesSet;
 
-  MapBuilder<String, OtherBuiltValue> _valuesMap;
-  MapBuilder<String, OtherBuiltValue> get valuesMap =>
-      _$this._valuesMap ??= new MapBuilder<String, OtherBuiltValue>();
-  set valuesMap(MapBuilder<String, OtherBuiltValue> valuesMap) =>
+  BuiltMap<String, OtherValueClass> _valuesMap;
+  BuiltMap<String, OtherValueClass> get valuesMap => _$this._valuesMap;
+  set valuesMap(BuiltMap<String, OtherValueClass> valuesMap) =>
       _$this._valuesMap = valuesMap;
 
   BuiltEnum _enumField;
   BuiltEnum get enumField => _$this._enumField;
   set enumField(BuiltEnum enumField) => _$this._enumField = enumField;
 
-  BuiltValueBuilder();
+  ValueClassBuilder();
 
-  BuiltValueBuilder get _$this {
+  ValueClassBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
       _name = $v.name;
       _surname = $v.surname;
-      _otherValue = $v.otherValue.toBuilder();
-      _valuesList = $v.valuesList.toBuilder();
-      _valuesSet = $v.valuesSet.toBuilder();
-      _valuesMap = $v.valuesMap.toBuilder();
+      _otherValue = $v.otherValue;
+      _valuesList = $v.valuesList;
+      _valuesSet = $v.valuesSet;
+      _valuesMap = $v.valuesMap;
       _enumField = $v.enumField;
       _$v = null;
     }
@@ -359,55 +354,40 @@ class BuiltValueBuilder implements Builder<BuiltValue, BuiltValueBuilder> {
   }
 
   @override
-  void replace(BuiltValue other) {
+  void replace(ValueClass other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$BuiltValue;
+    _$v = other as _$ValueClass;
   }
 
   @override
-  void update(void Function(BuiltValueBuilder) updates) {
+  void update(void Function(ValueClassBuilder) updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$BuiltValue build() {
-    _$BuiltValue _$result;
-    try {
-      _$result = _$v ??
-          new _$BuiltValue._(
-              name: BuiltValueNullFieldError.checkNotNull(
-                  name, 'BuiltValue', 'name'),
-              surname: BuiltValueNullFieldError.checkNotNull(
-                  surname, 'BuiltValue', 'surname'),
-              otherValue: otherValue.build(),
-              valuesList: valuesList.build(),
-              valuesSet: valuesSet.build(),
-              valuesMap: valuesMap.build(),
-              enumField: BuiltValueNullFieldError.checkNotNull(
-                  enumField, 'BuiltValue', 'enumField'));
-    } catch (_) {
-      String _$failedField;
-      try {
-        _$failedField = 'otherValue';
-        otherValue.build();
-        _$failedField = 'valuesList';
-        valuesList.build();
-        _$failedField = 'valuesSet';
-        valuesSet.build();
-        _$failedField = 'valuesMap';
-        valuesMap.build();
-      } catch (e) {
-        throw new BuiltValueNestedFieldError(
-            'BuiltValue', _$failedField, e.toString());
-      }
-      rethrow;
-    }
+  _$ValueClass build() {
+    final _$result = _$v ??
+        new _$ValueClass._(
+            name: BuiltValueNullFieldError.checkNotNull(
+                name, 'ValueClass', 'name'),
+            surname: BuiltValueNullFieldError.checkNotNull(
+                surname, 'ValueClass', 'surname'),
+            otherValue: BuiltValueNullFieldError.checkNotNull(
+                otherValue, 'ValueClass', 'otherValue'),
+            valuesList: BuiltValueNullFieldError.checkNotNull(
+                valuesList, 'ValueClass', 'valuesList'),
+            valuesSet: BuiltValueNullFieldError.checkNotNull(
+                valuesSet, 'ValueClass', 'valuesSet'),
+            valuesMap: BuiltValueNullFieldError.checkNotNull(
+                valuesMap, 'ValueClass', 'valuesMap'),
+            enumField: BuiltValueNullFieldError.checkNotNull(
+                enumField, 'ValueClass', 'enumField'));
     replace(_$result);
     return _$result;
   }
 }
 
-class _$OtherBuiltValue extends OtherBuiltValue {
+class _$OtherValueClass extends OtherValueClass {
   @override
   final int intField;
   @override
@@ -415,31 +395,32 @@ class _$OtherBuiltValue extends OtherBuiltValue {
   @override
   final double doubleField;
 
-  factory _$OtherBuiltValue([void Function(OtherBuiltValueBuilder) updates]) =>
-      (new OtherBuiltValueBuilder()..update(updates)).build();
+  factory _$OtherValueClass([void Function(OtherValueClassBuilder) updates]) =>
+      (new OtherValueClassBuilder()..update(updates)).build()
+          as _$OtherValueClass;
 
-  _$OtherBuiltValue._({this.intField, this.stringField, this.doubleField})
+  _$OtherValueClass._({this.intField, this.stringField, this.doubleField})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
-        intField, 'OtherBuiltValue', 'intField');
+        intField, 'OtherValueClass', 'intField');
     BuiltValueNullFieldError.checkNotNull(
-        stringField, 'OtherBuiltValue', 'stringField');
+        stringField, 'OtherValueClass', 'stringField');
     BuiltValueNullFieldError.checkNotNull(
-        doubleField, 'OtherBuiltValue', 'doubleField');
+        doubleField, 'OtherValueClass', 'doubleField');
   }
 
   @override
-  OtherBuiltValue rebuild(void Function(OtherBuiltValueBuilder) updates) =>
+  OtherValueClass rebuild(void Function(OtherValueClassBuilder) updates) =>
       (toBuilder()..update(updates)).build();
 
   @override
-  OtherBuiltValueBuilder toBuilder() =>
-      new OtherBuiltValueBuilder()..replace(this);
+  _$OtherValueClassBuilder toBuilder() =>
+      new _$OtherValueClassBuilder()..replace(this);
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
-    return other is OtherBuiltValue &&
+    return other is OtherValueClass &&
         intField == other.intField &&
         stringField == other.stringField &&
         doubleField == other.doubleField;
@@ -453,7 +434,7 @@ class _$OtherBuiltValue extends OtherBuiltValue {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('OtherBuiltValue')
+    return (newBuiltValueToStringHelper('OtherValueClass')
           ..add('intField', intField)
           ..add('stringField', stringField)
           ..add('doubleField', doubleField))
@@ -461,56 +442,79 @@ class _$OtherBuiltValue extends OtherBuiltValue {
   }
 }
 
-class OtherBuiltValueBuilder
-    implements Builder<OtherBuiltValue, OtherBuiltValueBuilder> {
-  _$OtherBuiltValue _$v;
+class _$OtherValueClassBuilder extends OtherValueClassBuilder {
+  _$OtherValueClass _$v;
 
-  int _intField;
-  int get intField => _$this._intField;
-  set intField(int intField) => _$this._intField = intField;
+  @override
+  int get intField {
+    _$this;
+    return super.intField;
+  }
 
-  String _stringField;
-  String get stringField => _$this._stringField;
-  set stringField(String stringField) => _$this._stringField = stringField;
+  @override
+  set intField(int intField) {
+    _$this;
+    super.intField = intField;
+  }
 
-  double _doubleField;
-  double get doubleField => _$this._doubleField;
-  set doubleField(double doubleField) => _$this._doubleField = doubleField;
+  @override
+  String get stringField {
+    _$this;
+    return super.stringField;
+  }
 
-  OtherBuiltValueBuilder();
+  @override
+  set stringField(String stringField) {
+    _$this;
+    super.stringField = stringField;
+  }
 
-  OtherBuiltValueBuilder get _$this {
+  @override
+  double get doubleField {
+    _$this;
+    return super.doubleField;
+  }
+
+  @override
+  set doubleField(double doubleField) {
+    _$this;
+    super.doubleField = doubleField;
+  }
+
+  _$OtherValueClassBuilder() : super._();
+
+  OtherValueClassBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _intField = $v.intField;
-      _stringField = $v.stringField;
-      _doubleField = $v.doubleField;
+      super.intField = $v.intField;
+      super.stringField = $v.stringField;
+      super.doubleField = $v.doubleField;
       _$v = null;
     }
     return this;
   }
 
   @override
-  void replace(OtherBuiltValue other) {
+  void replace(OtherValueClass other) {
     ArgumentError.checkNotNull(other, 'other');
-    _$v = other as _$OtherBuiltValue;
+    _$v = other as _$OtherValueClass;
   }
 
   @override
-  void update(void Function(OtherBuiltValueBuilder) updates) {
+  void update(void Function(OtherValueClassBuilder) updates) {
     if (updates != null) updates(this);
   }
 
   @override
-  _$OtherBuiltValue build() {
+  _$OtherValueClass build() {
     final _$result = _$v ??
-        new _$OtherBuiltValue._(
+        new _$OtherValueClass._(
             intField: BuiltValueNullFieldError.checkNotNull(
-                intField, 'OtherBuiltValue', 'intField'),
+                intField, 'OtherValueClass', 'intField'),
             stringField: BuiltValueNullFieldError.checkNotNull(
-                stringField, 'OtherBuiltValue', 'stringField'),
+                stringField, 'OtherValueClass', 'stringField'),
             doubleField: BuiltValueNullFieldError.checkNotNull(
-                doubleField, 'OtherBuiltValue', 'doubleField'));
+                doubleField, 'OtherValueClass', 'doubleField'));
     replace(_$result);
     return _$result;
   }
@@ -547,36 +551,38 @@ class BuiltEnumAdapter extends TypeAdapter<BuiltEnum> {
           typeId == other.typeId;
 }
 
-class BuiltValueAdapter extends TypeAdapter<BuiltValue> {
+class ValueClassAdapter extends TypeAdapter<ValueClass> {
   @override
   final int typeId = 1;
 
   @override
-  BuiltValue read(BinaryReader reader) {
+  ValueClass read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
 
-    return (BuiltValueBuilder()
+    return (ValueClassBuilder()
           ..name = fields[0] as String
           ..surname = fields[1] as String
-          ..otherValue = (fields[2] as OtherBuiltValue)?.toBuilder()
+          ..otherValue = fields[2] as OtherValueClass
           ..valuesList = fields[3] == null
               ? null
-              : ListBuilder<OtherBuiltValue>(fields[3] as List)
+              : ListBuilder<OtherValueClass>(fields[3] as Iterable).build()
           ..valuesSet = fields[4] == null
               ? null
-              : SetBuilder<OtherBuiltValue>(fields[4] as List)
+              : SetBuilder<OtherValueClass>(fields[4] as Iterable).build()
           ..valuesMap = fields[5] == null
               ? null
-              : MapBuilder<String, OtherBuiltValue>(fields[5] as Map)
+              : MapBuilder<String, OtherValueClass>(
+                      (fields[5] as Map)?.cast<String, OtherValueClass>())
+                  .build()
           ..enumField = fields[6] as BuiltEnum)
         .build();
   }
 
   @override
-  void write(BinaryWriter writer, BuiltValue obj) {
+  void write(BinaryWriter writer, ValueClass obj) {
     writer
       ..writeByte(7)
       ..writeByte(0)
@@ -601,23 +607,23 @@ class BuiltValueAdapter extends TypeAdapter<BuiltValue> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is BuiltValueAdapter &&
+      other is ValueClassAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }
 
-class OtherBuiltValueAdapter extends TypeAdapter<OtherBuiltValue> {
+class OtherValueClassAdapter extends TypeAdapter<OtherValueClass> {
   @override
   final int typeId = 2;
 
   @override
-  OtherBuiltValue read(BinaryReader reader) {
+  OtherValueClass read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
 
-    return (OtherBuiltValueBuilder()
+    return (OtherValueClassBuilder()
           ..intField = fields[0] as int
           ..stringField = fields[1] as String
           ..doubleField = fields[2] as double)
@@ -625,7 +631,7 @@ class OtherBuiltValueAdapter extends TypeAdapter<OtherBuiltValue> {
   }
 
   @override
-  void write(BinaryWriter writer, OtherBuiltValue obj) {
+  void write(BinaryWriter writer, OtherValueClass obj) {
     writer
       ..writeByte(3)
       ..writeByte(0)
@@ -642,7 +648,7 @@ class OtherBuiltValueAdapter extends TypeAdapter<OtherBuiltValue> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is OtherBuiltValueAdapter &&
+      other is OtherValueClassAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

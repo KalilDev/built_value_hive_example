@@ -8,40 +8,40 @@ import 'package:built_value/standard_json_plugin.dart';
 import 'package:collection/collection.dart';
 part 'example.g.dart';
 
-OtherBuiltValue _otherBuiltValue([int i = 10]) => OtherBuiltValue((b) => b
+OtherValueClass _otherValueClass([int i = 10]) => OtherValueClass((b) => b
   ..doubleField = 3.0 * i
   ..intField = i
   ..stringField = i.toRadixString(16));
 
-BuiltList<OtherBuiltValue> _valuesList() =>
-    BuiltList.from(List.generate(5, _otherBuiltValue));
-BuiltMap<String, OtherBuiltValue> _valuesMap() => BuiltMap.from(
+BuiltList<OtherValueClass> _valuesList() =>
+    BuiltList.from(List.generate(5, _otherValueClass));
+BuiltMap<String, OtherValueClass> _valuesMap() => BuiltMap.from(
       Map.fromEntries(
         _valuesList().map((e) => MapEntry(e.stringField, e)),
       ),
     );
 
-BuiltValue _createBuiltValue({String name}) => BuiltValue((b) => b
+ValueClass _createBuiltValue({String name}) => ValueClass((b) => b
   ..name = name ?? 'name'
   ..surname = 'surname'
-  ..valuesList = _valuesList().toBuilder()
-  ..valuesMap = _valuesMap().toBuilder()
-  ..valuesSet = SetBuilder<OtherBuiltValue>(_valuesList())
+  ..valuesList = _valuesList()
+  ..valuesMap = _valuesMap()
+  ..valuesSet = SetBuilder<OtherValueClass>(_valuesList()).build()
   ..enumField = BuiltEnum.caseA
-  ..otherValue = _otherBuiltValue().toBuilder());
+  ..otherValue = _otherValueClass());
 
 void main() async {
   await Hive.init(Directory.current.path);
   Hive
     ..registerAdapter<BuiltEnum>(BuiltEnumAdapter())
-    ..registerAdapter<BuiltValue>(BuiltValueAdapter())
-    ..registerAdapter<OtherBuiltValue>(OtherBuiltValueAdapter());
-  var builtValueBox = await Hive.openBox<BuiltValue>('builtValueBox');
+    ..registerAdapter<ValueClass>(ValueClassAdapter())
+    ..registerAdapter<OtherValueClass>(OtherValueClassAdapter());
+  var builtValueBox = await Hive.openBox<ValueClass>('builtValueBox');
   await builtValueBox.clear();
   final values = List.generate(3, (i) => _createBuiltValue(name: i.toString()));
   await builtValueBox.addAll(values);
   await builtValueBox.close();
-  builtValueBox = await Hive.openBox<BuiltValue>('builtValueBox');
+  builtValueBox = await Hive.openBox<ValueClass>('builtValueBox');
   final deserializedValues = builtValueBox.values.toList();
   if (!IterableEquality().equals(values, deserializedValues)) {
     throw StateError('they arent equal.\na: $values\nb:$deserializedValues');
@@ -53,8 +53,8 @@ void main() async {
 
 @SerializersFor([
   BuiltEnum,
-  BuiltValue,
-  OtherBuiltValue,
+  ValueClass,
+  OtherValueClass,
 ])
 final Serializers serializers =
     (_$serializers.toBuilder()..addPlugin(StandardJsonPlugin())).build();
@@ -82,7 +82,8 @@ class BuiltEnum extends EnumClass {
 }
 
 @HiveType(typeId: 1)
-abstract class BuiltValue implements Built<BuiltValue, BuiltValueBuilder> {
+@BuiltValue(nestedBuilders: false)
+abstract class ValueClass implements Built<ValueClass, ValueClassBuilder> {
   @HiveField(0)
   String get name;
 
@@ -90,37 +91,37 @@ abstract class BuiltValue implements Built<BuiltValue, BuiltValueBuilder> {
   String get surname;
 
   @HiveField(2)
-  OtherBuiltValue get otherValue;
+  OtherValueClass get otherValue;
 
   @HiveField(3)
-  BuiltList<OtherBuiltValue> get valuesList;
+  BuiltList<OtherValueClass> get valuesList;
 
   @HiveField(4)
-  BuiltSet<OtherBuiltValue> get valuesSet;
+  BuiltSet<OtherValueClass> get valuesSet;
 
   @HiveField(5)
-  BuiltMap<String, OtherBuiltValue> get valuesMap;
+  BuiltMap<String, OtherValueClass> get valuesMap;
 
   @HiveField(6)
   BuiltEnum get enumField;
 
-  BuiltValue._();
-  factory BuiltValue([void Function(BuiltValueBuilder) updates]) = _$BuiltValue;
+  ValueClass._();
+  factory ValueClass([void Function(ValueClassBuilder) updates]) = _$ValueClass;
 
   Map<String, dynamic> toJson() {
-    return serializers.serializeWith(BuiltValue.serializer, this);
+    return serializers.serializeWith(ValueClass.serializer, this);
   }
 
-  static BuiltValue fromJson(Map<String, dynamic> json) {
-    return serializers.deserializeWith(BuiltValue.serializer, json);
+  static ValueClass fromJson(Map<String, dynamic> json) {
+    return serializers.deserializeWith(ValueClass.serializer, json);
   }
 
-  static Serializer<BuiltValue> get serializer => _$builtValueSerializer;
+  static Serializer<ValueClass> get serializer => _$valueClassSerializer;
 }
 
 @HiveType(typeId: 2)
-abstract class OtherBuiltValue
-    implements Built<OtherBuiltValue, OtherBuiltValueBuilder> {
+abstract class OtherValueClass
+    implements Built<OtherValueClass, OtherValueClassBuilder> {
   @HiveField(0)
   int get intField;
   @HiveField(1)
@@ -128,18 +129,31 @@ abstract class OtherBuiltValue
   @HiveField(2)
   double get doubleField;
 
-  OtherBuiltValue._();
-  factory OtherBuiltValue([void Function(OtherBuiltValueBuilder) updates]) =
-      _$OtherBuiltValue;
+  OtherValueClass._();
+  factory OtherValueClass([void Function(OtherValueClassBuilder) updates]) =
+      _$OtherValueClass;
 
   Map<String, dynamic> toJson() {
-    return serializers.serializeWith(OtherBuiltValue.serializer, this);
+    return serializers.serializeWith(OtherValueClass.serializer, this);
   }
 
-  static OtherBuiltValue fromJson(Map<String, dynamic> json) {
-    return serializers.deserializeWith(OtherBuiltValue.serializer, json);
+  static OtherValueClass fromJson(Map<String, dynamic> json) {
+    return serializers.deserializeWith(OtherValueClass.serializer, json);
   }
 
-  static Serializer<OtherBuiltValue> get serializer =>
-      _$otherBuiltValueSerializer;
+  static Serializer<OtherValueClass> get serializer =>
+      _$otherValueClassSerializer;
+}
+
+abstract class OtherValueClassBuilder
+    implements Builder<OtherValueClass, OtherValueClassBuilder> {
+  @HiveField(0)
+  int intField = 1;
+  @HiveField(1)
+  String stringField = '1';
+  @HiveField(2)
+  double doubleField = 1.0;
+
+  factory OtherValueClassBuilder() = _$OtherValueClassBuilder;
+  OtherValueClassBuilder._();
 }
